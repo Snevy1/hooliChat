@@ -21,6 +21,7 @@ app.use(cors({
     credentials:true,
 }))
 
+app.use("/uploads/profiles",express.static("uploads/profiles") )
 app.use(cookieParser())
 app.use(express.json())
 
@@ -30,5 +31,7 @@ const server = app.listen(port, ()=>{
     
     console.log(`Server is running at http://localhost:${port}`)
 })
+
+
 
 mongoose.connect(databaseURL).then(()=>console.log("Database connection successfull")).catch((error)=>console.log(error.message))
