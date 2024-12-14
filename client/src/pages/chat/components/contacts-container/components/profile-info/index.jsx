@@ -44,7 +44,7 @@ const ProfileInfo = () => {
         <div className="flex gap-3 items-center justify-center">
             <div className="w-12 h-12 relative ">
                 <Avatar className="h-12 w-12  rounded-full overflow-hidden">
-                              {userInfo.image ? (<AvatarImage src={`${HOST}/${userInfo.image}`} alt='profile' className="object-cover w-full h-full bg-black" />): <div className = {`uppercase h-32 w-32  text-lg border-[1px] flex items-center justify-center ${getColor(userInfo.color)}`}>
+                              {userInfo.image ? (<AvatarImage src={`${HOST}/${userInfo.image}`} alt='profile' className="object-cover w-full h-full bg-black" />): <div className = {`uppercase h-12 w-12  text-lg border-[1px] flex items-center justify-center ${getColor(userInfo.color)}`}>
                                 {
                                  userInfo.firstName ? userInfo.firstName.split("").shift(): userInfo.email.split("").shift()
                                 }
