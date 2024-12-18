@@ -1,6 +1,7 @@
 import Message from "../models/MessagesModel.js";
 
-import {mkdirSync, renameSync} from 'fs'
+import {mkdirSync, renameSync} from 'fs';
+import path from "path";
 
 
 
@@ -57,15 +58,16 @@ export const uploadFile = async(request,response,next)=>{
 
         const date = Date.now();
 
-        let fileDir = `uploads/files/${date}`
-          let fileName = `${fileDir}/${request.file.originalname}`;
+        const tmpDir = path.join("/tmp", `files/${date}`);
+       const tmpFilePath = path.join(tmpDir, request.file.originalname);
           
-       mkdirSync(fileDir, {recursive: true})
-       renameSync(request.file.path,fileName);
+       mkdirSync(tmpDir, { recursive: true }); // Create the temporary directory
+       renameSync(request.file.path, tmpFilePath); // Move the file to the temporary directory
+   
 
 
         return response.status(200).json({
-            filePath:fileName
+            filePath:tmpFilePath
         })
 
 
