@@ -1,4 +1,4 @@
-import Message from "../models/messagesModel.js";
+import Message from "../models/MessagesModel.js";
 
 import {mkdirSync, renameSync} from 'fs'
 

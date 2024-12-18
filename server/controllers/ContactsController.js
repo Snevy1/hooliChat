@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import User from "../models/UserModel.js";
-import Message from "../models/messagesModel.js";
+import Message from "../models/MessagesModel.js";
 
 export const searchContacts = async(request,response,next)=>{
     try {
