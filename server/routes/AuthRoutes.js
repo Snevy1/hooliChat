@@ -3,8 +3,11 @@ import { getUserInfo, login, SignUp, updateProfile,
     addProfileImage, removeProfileImage,logout } from "../controllers/AuthController.js";
 import { verifyToken } from "../middlewares/AuthMiddleware.js";
 import multer from "multer"
-const  upload = multer({
-    dest:"uploads/profiles/"
+import path from "path"
+
+
+const upload = multer({
+    dest: path.join("/tmp", "profiles")
 })
 
 const authRoutes = Router();
