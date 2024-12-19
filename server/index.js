@@ -25,9 +25,9 @@ app.use(cors({
     credentials:true,
 }))
 
-app.use("/uploads/profiles",express.static("uploads/profiles") )
+app.use("/tmp/profiles",express.static("tmp/profiles") )
 
-app.use("/uploads/files", express.static("uploads/files"))
+app.use("/tmp/files", express.static("tmp/files"))
 app.use(cookieParser())
 app.use(express.json())
 
