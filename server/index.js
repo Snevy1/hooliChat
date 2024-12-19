@@ -19,7 +19,7 @@ const  port = process.env.PORT || 3001;
 
 const databaseURL = process.env.DATABASE_URL;
 
-const allowedOrigins = [process.env.ORIGIN, 'https://hooli-chat-client.vercel.app']; 
+//const allowedOrigins = [process.env.ORIGIN, 'https://hooli-chat-client.vercel.app']; 
 app.use(cors({ 
             origin: ['https://hooli-chat-client.vercel.app'],
           methods: ["GET", "POST", "PUT", "PATCH", "DELETE"], 
@@ -38,7 +38,7 @@ app.use("/api/messages", messagesRoutes)
 
 app.use("/api/channel", channelRoutes)
 
-app.get('/', (req, res) => {
+app.get('/home', (req, res) => {
     res.status(200).send('Backend is running');
   });
 
