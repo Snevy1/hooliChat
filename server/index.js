@@ -45,6 +45,10 @@ app.use("/api/messages", messagesRoutes)
 
 app.use("/api/channel", channelRoutes)
 
+app.get('/', (req, res) => {
+    res.status(200).send('Backend is running');
+  });
+
 const server = app.listen(port, ()=>{
     
     console.log(`Server is running at http://localhost:${port}`)
