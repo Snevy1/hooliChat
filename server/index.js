@@ -21,13 +21,12 @@ const databaseURL = process.env.DATABASE_URL;
 
 //const allowedOrigins = [process.env.ORIGIN, 'https://hooli-chat-client.vercel.app']; 
 app.use(cors({ 
-            origin: ['https://hooli-chat-client.vercel.app'],
-          methods: ["GET", "POST", "PUT", "PATCH", "DELETE"], 
-          credentials: true, 
-        }));
+    origin: process.env.ORIGIN,
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE"], 
+    credentials: true, 
+  }));
 
 app.use("/tmp/profiles",express.static("tmp/profiles") )
-
 app.use("/tmp/files", express.static("tmp/files"))
 app.use(cookieParser())
 app.use(express.json())
