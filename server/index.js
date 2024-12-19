@@ -19,11 +19,19 @@ const  port = process.env.PORT || 3001;
 
 const databaseURL = process.env.DATABASE_URL;
 
-app.use(cors({
-    origin: [process.env.ORIGIN],
-    methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
-    credentials:true,
-}))
+const allowedOrigins = [process.env.ORIGIN, 'https://hooli-chat-client.vercel.app']; 
+app.use(cors({ 
+    origin: function (origin, callback) { 
+        if (!origin || allowedOrigins.includes(origin)) { 
+            callback(null, true);
+         } else {
+             callback(new Error('Not allowed by CORS'));
+
+          }
+         },
+          methods: ["GET", "POST", "PUT", "PATCH", "DELETE"], 
+          credentials: true, 
+        }));
 
 app.use("/tmp/profiles",express.static("tmp/profiles") )
 
