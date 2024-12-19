@@ -3,7 +3,8 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
 import mongoose from 'mongoose';
-import path from 'path'; // Import path to serve static files
+import { fileURLToPath } from 'url';
+import { dirname, join } from 'path'; // Import necessary functions
 import authRoutes from './routes/AuthRoutes.js';
 import contactsRoutes from './routes/ContactsRoutes.js';
 import setupSocket from './socket.js';
@@ -11,6 +12,10 @@ import messagesRoutes from './routes/MessagesRoutes.js';
 import channelRoutes from './routes/ChannelRoutes.js';
 
 dotenv.config();
+
+// Compute __dirname equivalent
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const app = express();
 
@@ -35,11 +40,11 @@ app.use("/api/messages", messagesRoutes);
 app.use("/api/channel", channelRoutes);
 
 // Serve static files from the React frontend (build or dist folder)
-app.use(express.static(path.join(__dirname, '../client/dist')));
+app.use(express.static(join(__dirname, '../client/dist')));
 
 // Catch-all route to serve the React app for any other URL
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../client/dist', 'index.html'));
+  res.sendFile(join(__dirname, '../client/dist', 'index.html'));
 });
 
 // Start the server
