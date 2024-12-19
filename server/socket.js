@@ -6,12 +6,19 @@ const setupSocket = (server)=>{
     
 
     const io = new SockerIOServer(server, {
-        cors:{
-            origin: process.env.ORIGIN,
-            methods: ["GET", "POST"],
-            credentials:true
-        }
-    });
+        cors: {
+          origin: (origin, callback) => {
+            if (!origin || origin.includes(process.env.ORIGIN_BASE || 'http://localhost')) {
+              callback(null, true);
+            } else {
+              callback(new Error('Not allowed by CORS'));
+            }
+          },
+          methods: ["GET", "POST"],
+          credentials: true,
+        },
+      });
+      
 
     
 
