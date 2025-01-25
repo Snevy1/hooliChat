@@ -3,51 +3,59 @@ import Channel from "../models/ChannelModel.js";
 import User from "../models/UserModel.js";
 
 
-export const createChannel = async(request,response,next)=>{
+export const createOrUpdateChannel = async (request, response, next) => {
     try {
-
-        const {name, members} = request.body;
-
+        const { name, members } = request.body;
         const userId = request.userId;
 
+        // Check if the admin user exists
         const admin = await User.findById(userId);
-
-        if(!admin){
-            return response.status(400).send("Admin User not found")
+        if (!admin) {
+            return response.status(400).send("Admin user not found");
         }
 
+        // Validate members
         const validMembers = await User.find({
-            _id:{
-                $in: members
+            _id: { $in: members }
+        });
+
+        if (validMembers.length !== members.length) {
+            return response.status(400).send("Some members are not valid users");
+        }
+
+        // Check if a channel with the same name exists
+        let channel = await Channel.findOne({ name });
+
+        if (channel) {
+            // **Updating existing channel**
+            const existingMembers = new Set(channel.members.map(member => member.toString()));
+            const newMembers = members.filter(member => !existingMembers.has(member));
+
+            if (newMembers.length === 0) {
+                return response.status(400).send("All selected members are already in the channel");
             }
-        })
 
-         if(validMembers.length !== members.length ){
+            channel.members.push(...newMembers);
+            await channel.save();
 
-            return response.status(400).send("Some members are not valid users")
+            return response.status(200).json({ message: "Members added successfully", channel });
+        } else {
+            // **Creating a new channel**
+            channel = new Channel({
+                name,
+                members,
+                admin: userId,
+            });
 
-         }
-
-         const newChannel = new Channel({
-            name,
-             members, 
-             admin: userId,
-         })
-          
-
-
-         await newChannel.save();
-
-         return response.status(201).json({channel: newChannel})
-
+            await channel.save();
+            return response.status(201).json({ message: "Channel created successfully", channel });
+        }
     } catch (error) {
-
-        console.log({error})
-
+        console.log({ error });
         return response.status(500).send("Internal Server Error");
-        
     }
-}
+};
+
 
 
 export const getUserChannels = async(request,response,next)=>{

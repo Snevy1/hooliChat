@@ -31,6 +31,8 @@ export const GET_USER_CHANNELS_ROUTE = `${CHANNEL_ROUTES}/get-user-channels`;
 
 export const GET_CHANNEL_MESSAGES = `${CHANNEL_ROUTES}/get-channel-mesages`;
 
+export const ADD_MEMBER_TO_GROUP_ROUTE = `${CHANNEL_ROUTES}/add-member`
+
 
 
 
