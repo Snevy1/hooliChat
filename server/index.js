@@ -19,7 +19,7 @@ const databaseURL = process.env.DATABASE_URL;
 // CORS setup
 app.use(
   cors({
-    origin: '*', // Allow all origins or replace '*' with your specific frontend URL if needed
+    origin: 'http://localhost:5173', // Allow all origins or replace '*' with your specific frontend URL if needed
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
     credentials: true,
   })
