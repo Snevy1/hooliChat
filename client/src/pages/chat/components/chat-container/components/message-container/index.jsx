@@ -3,18 +3,23 @@ import { useAppStore } from "@/store";
 import { GET_ALL_MESSAGES_ROUTE, GET_CHANNEL_MESSAGES, HOST } from "@/utils/constants";
 import moment from "moment";
 import { useEffect, useRef, useState } from "react";
-import { MdFolderZip } from 'react-icons/md';
-import { IoMdArrowRoundDown } from 'react-icons/io';
+import { MdFolderZip } from "react-icons/md";
+import { IoMdArrowRoundDown } from "react-icons/io";
 import { IoCloseSharp } from "react-icons/io5";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { getColor } from "@/lib/utils";
-import { Document, Page, pdfjs } from 'react-pdf';
+import { Document, Page, pdfjs } from "react-pdf";
 import { AiFillEye } from "react-icons/ai";
-import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
-import 'react-pdf/dist/esm/Page/TextLayer.css';
+import "react-pdf/dist/esm/Page/AnnotationLayer.css";
+import "react-pdf/dist/esm/Page/TextLayer.css";
 
-// Set up PDF worker
-pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
+// Import the worker from pdfjs-dist
+import { PDFWorker } from "pdfjs-dist";
+
+// Set up PDF worker locally
+pdfjs.GlobalWorkerOptions.workerSrc = URL.createObjectURL(
+  new Blob([PDFWorker], { type: "application/javascript" })
+);
 
 const MessageContainer = () => {
   const scrollRef = useRef();
@@ -122,14 +127,14 @@ const MessageContainer = () => {
     const isPDF = fileExtension === "pdf";
     const isDoc = ["doc", "docx"].includes(fileExtension);
     const isPpt = ["ppt", "pptx"].includes(fileExtension);
-  
+
     return (
-      <div className="w-full max-w-[400px] mx-auto flex flex-col items-center gap-2 p-2 sm:p-4 border rounded-lg shadow-md bg-white">
+      <div className="w-full min-w-[90%] max-w-[90%] mx-auto flex flex-col items-center gap-2 p-2 sm:p-4 border rounded-lg shadow-md bg-white">
         {/* File Name */}
-        <span className="text-sm font-semibold text-gray-700 text-center truncate w-full px-2">
+        <span className="text-sm font-semibold text-gray-700 text-center break-words w-full px-2">
           {fileName}
         </span>
-  
+
         {/* Preview for documents */}
         {isPDF ? (
           <div className="w-full max-w-[300px] overflow-hidden">
@@ -158,7 +163,7 @@ const MessageContainer = () => {
             Preview not available for this file type.
           </p>
         )}
-  
+
         {/* Buttons */}
         <div className="flex flex-col sm:flex-row gap-2 sm:gap-4 mt-2 w-full px-2">
           {/* View Button */}
@@ -180,9 +185,6 @@ const MessageContainer = () => {
       </div>
     );
   };
-  
-  
-  
 
   const renderDMMessages = (message) => (
     <div className={`${message.sender === selectedChatData._id ? "text-left" : "text-right"}`}>
@@ -203,7 +205,7 @@ const MessageContainer = () => {
             message.sender !== selectedChatData._id
               ? "bg-[#8417ff]/5 text-[#8417ff]/90 border-[#8417ff]/50"
               : "bg-[#2a2b33]/5 text-white/80 border-[#ffffff]/20"
-          } border inline-block p-4 rounded my-2 max-w-[50%] break-words`}
+          } border inline-block p-4 rounded my-2 w-[90%] break-words`}
         >
           {checkIfImage(message.fileUrl) ? (
             <div
@@ -258,7 +260,7 @@ const MessageContainer = () => {
             message.sender._id === userInfo._id
               ? "bg-[#8417ff]/5 text-[#8417ff]/90 border-[#8417ff]/50"
               : "bg-[#2a2b33]/5 text-white/80 border-[#ffffff]/20"
-          } border inline-block p-4 rounded my-2 max-w-[50%] break-words`}
+          } border inline-block p-4 rounded my-2 w-[90%] break-words`}
         >
           {checkIfImage(message.fileUrl) ? (
             <div
