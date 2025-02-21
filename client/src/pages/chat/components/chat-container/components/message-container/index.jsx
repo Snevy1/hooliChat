@@ -162,6 +162,8 @@ const MessageContainer = () => {
 
   }
 
+ /*  yoh */
+
   const renderDMMessages = (message)=>
     <div className={`${message.sender === selectedChatData._id ? "text-left": "text-right"}`}>
            {
